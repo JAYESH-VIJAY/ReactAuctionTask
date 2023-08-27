@@ -2,8 +2,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -11,19 +9,30 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { AuthContext } from "../App";
-import { useContext } from "react";
 
-export default function SignIn() {
-    const { login, setLogin } = useContext(AuthContext);
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+export default function SignIn({ login, setLogin, setShowHome }) {
   const handleSubmit = (event) => {
+    const auth = getAuth();
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
+    signInWithEmailAndPassword(auth, data.get("email"), data.get("password"))
+      .then((response) => {
+        // Signed in
+        const user = response.user;
+        console.log(user);
+        setShowHome(()=>true);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage, errorCode);
+      });
   };
 
   return (
@@ -70,10 +79,6 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -83,12 +88,7 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item onClick={()=>setLogin(!login)}>
+              <Grid item onClick={() => setLogin(!login)}>
                 <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
@@ -102,9 +102,7 @@ export default function SignIn() {
   );
 }
 
-
-
-//theme 
+//theme
 function Copyright(props) {
   return (
     <Typography

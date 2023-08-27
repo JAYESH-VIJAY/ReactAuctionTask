@@ -1,21 +1,38 @@
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import ImageUpload from "./ImageUpload/ImageUpload";
+import { useState } from "react";
+function Modal({ setPopUp }) {
+  //eslint-disable-next-line
+  const [formData, setFormData] = useState({
+    itemName: "",
+    category: "",
+    auctionPrice: "",
+  });
 
-function Modal({ setPopUp, Images, curIndex, offerBid, setOfferBid }) {
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     // You can perform any validation or data processing here before submitting
-    setOfferBid(offerBid + "$");
+
     // Example: Submit the form data to an API or perform an action
-    console.log("Form data submitted:");
+    console.log("Form data submitted:", formData);
+
     // Close the modal
     setPopUp(false);
   };
 
+  //  const handleInputChange = (event) => {
+  //    const { name, value } = event.target;
+  //    setFormData({
+  //      ...formData,
+  //      [name]: value,
+  //    });
+  //  };
   return (
     <div className="Modal w-screen h-screen bg-black bg-opacity-30 fixed top-0 right-0 flex justify-center items-center">
       <div className="bg-white p-10 rounded-md shadow-md">
-        <h1 className="font-bold text-center text-lg my-3">Place Bid</h1>
+        <h1 className="font-bold text-center text-lg my-3">Add Auction</h1>
         <h1 className="font-bold text-center text-sm ">
           **Place heighest bid amount from current bid to make this product
           yours**
@@ -27,17 +44,21 @@ function Modal({ setPopUp, Images, curIndex, offerBid, setOfferBid }) {
             alignItems: "center",
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="ItemCategory"
-                  name="ItemCategory"
+                  autoComplete="ItemName"
+                  name="ItemName"
                   required
                   fullWidth
-                  id="ItemCategory"
-                  label="Item Category"
-                  value={Images[curIndex].category}
+                  id="ItemName"
+                  label="Item Name"
                   autoFocus
                 />
               </Grid>
@@ -45,24 +66,24 @@ function Modal({ setPopUp, Images, curIndex, offerBid, setOfferBid }) {
                 <TextField
                   required
                   fullWidth
-                  id="CurrentBid"
-                  label="Current Bid"
-                  name="Current Bid"
-                  autoComplete="CurrentBid"
-                  value={offerBid ? offerBid : Images[curIndex].minBid}
+                  id="Auctioncatagory"
+                  label="Category"
+                  name="Category"
+                  autoComplete="Category"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="OfferBid"
-                  label="Your Bid"
-                  name="OfferBid"
-                  autoComplete="OfferBid"
-                  value={offerBid}
-                  onChange={(e) => setOfferBid(e.target.value)}
+                  id="AuctionPrice"
+                  label="Auction Price"
+                  name="AuctionPrice"
+                  autoComplete="AuctionPrice"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <ImageUpload />
               </Grid>
             </Grid>
           </Box>
@@ -77,9 +98,9 @@ function Modal({ setPopUp, Images, curIndex, offerBid, setOfferBid }) {
           </button>
           <button
             className="outline outline-1 outline-[#101f20] hover:bg-[#101f20] hover:text-white py-2 px-4 bg-transparent text-black"
-            onClick={() => handleSubmit()}
+            onClick={() => console.log("Please like and subscribe")}
           >
-            Place Bid
+            Yes, Add
           </button>
         </div>
       </div>
