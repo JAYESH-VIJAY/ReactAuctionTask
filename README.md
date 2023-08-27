@@ -9,7 +9,9 @@ This repository contains the code for a React-based auction website that is powe
 ## Screenshot
 
 ![image preview](https://firebasestorage.googleapis.com/v0/b/react-aution-project.appspot.com/o/signup.png?alt=media&token=ea302a4a-8005-4339-93d9-5818dbcc2d78)
+
 ![image preview](https://firebasestorage.googleapis.com/v0/b/react-aution-project.appspot.com/o/liveAuction.png?alt=media&token=bc8b3224-0df2-4e87-ab12-2ae57dcccff1)
+
 ![image preview](https://firebasestorage.googleapis.com/v0/b/react-aution-project.appspot.com/o/YourListing.png?alt=media&token=ca14d0d7-1805-4c74-82f1-e01c0628ae72)
 
 ## Features
@@ -25,7 +27,7 @@ This repository contains the code for a React-based auction website that is powe
 1. **Clone the Repository:** Clone this repository to your local machine.
 
    ```bash
-   git clone https://github.com/your-username/react-auction-firebase.git
+   git clone https://github.com/JAYESH-VIJAY/ReactAuctionTask.git
    ```
 
 2. **Install Dependencies:** Navigate to the project directory and install the necessary dependencies.
