@@ -51,7 +51,7 @@ This repository contains the code for a React-based auction website that is powe
 5. **Authentication:**
 
    - Enable the desired authentication methods (e.g., email/password, Google, etc.) in the Firebase Authentication settings.
-   - Update the authentication configuration in the `src/firebaseConfig.js` file.
+   - Update the authentication configuration in the `src/components/firebase.js` file.
 
 6. **Run the Application:** Start the development server to run the application locally.
 
