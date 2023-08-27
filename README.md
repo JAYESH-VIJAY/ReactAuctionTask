@@ -33,7 +33,7 @@ This repository contains the code for a React-based auction website that is powe
 2. **Install Dependencies:** Navigate to the project directory and install the necessary dependencies.
 
    ```bash
-   cd react-auction-firebase
+   cd ReactAuctionTask
    npm install
    ```
 
@@ -41,7 +41,7 @@ This repository contains the code for a React-based auction website that is powe
 
    - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
    - Obtain your Firebase configuration (apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId) from the project settings.
-   - Replace the placeholders in the `src/firebaseConfig.js` file with your Firebase configuration.
+   - Replace the placeholders in the `src/components/firebase.js` file with your Firebase configuration.
 
 4. **Database Setup:**
 
@@ -59,7 +59,7 @@ This repository contains the code for a React-based auction website that is powe
    npm run dev
    ```
 
-7. **Access the Application:** Open your browser and navigate to `http://localhost:3000` to access the auction website.
+7. **Access the Application:** Open your browser and navigate to `http://localhost:5173` to access the auction website.
 
 ## Usage
 
