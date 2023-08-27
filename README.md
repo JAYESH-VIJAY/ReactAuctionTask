@@ -79,14 +79,12 @@ Contributions are welcome! If you'd like to contribute to the project, please fo
 4. Push your changes to your fork.
 5. Create a pull request detailing your changes.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 Feel free to reach out to the project author or maintainers for any questions or assistance.
 
 **Author:** Jayesh Vijay
 
 **Project Link:** [https://reactauctiontask.vercel.app/](https://reactauctiontask.vercel.app/)
+
+## Subscribe to my YouTube channel for more coding tutorials!
+
+https://www.youtube.com/@uniquecoder/
