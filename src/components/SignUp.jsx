@@ -9,38 +9,40 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import useSignUp from "../Hooks/useSignUp";
+import Modal from "react-modal";
+import { useState } from "react";
 
-// firebase
-import { app } from "./firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-export default function SignUp({ login, setLogin ,setShowHome}) {
-  let auth = getAuth(app);
+Modal.setAppElement("#root"); // Set the root element for the modal
 
-  const handleSubmit = (event) => {
+export default function SignUp() {
+  const navigate = useNavigate();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  //eslint-disable-next-line
+  const { signUp, error } = useSignUp();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    createUserWithEmailAndPassword(
-      auth,
-      data.get("email"),
-      data.get("password")
-    )
-      .then((res) => {
-        // Signed in
-        const user = res.user;
-        console.log(user);
-        setShowHome(()=>true);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode, errorMessage);
-      });
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+    signUp(data.get("email"), data.get("password"), () => {
+      setIsPopupOpen(true); // Open the popup after sign-up
     });
   };
 
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+
+  //   signUp(data.get("email"), data.get("password"), () => {
+  //     setIsPopupOpen(true); // Open the popup after sign-up
+  //   });
+  // };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -97,7 +99,7 @@ export default function SignUp({ login, setLogin ,setShowHome}) {
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
-              <Grid item onClick={() => setLogin(!login)}>
+              <Grid item onClick={() => navigate("/login")}>
                 <Link href="#" variant="body2">
                   Already have an account? Sign in
                 </Link>
@@ -105,7 +107,24 @@ export default function SignUp({ login, setLogin ,setShowHome}) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt: 5 }} />{" "}
+        <Modal
+          isOpen={isPopupOpen}
+          onRequestClose={closePopup}
+          className="popup"
+          overlayClassName="overlay"
+        >
+          <div className="popup-content">
+            <h2>Verification Link Sent!</h2>
+            <p>
+              A verification link has been sent to your email address. Please
+              check your inbox and click the link to verify your email.
+            </p>
+            <Button variant="contained" onClick={closePopup}>
+              Close
+            </Button>
+          </div>
+        </Modal>
       </Container>
     </ThemeProvider>
   );

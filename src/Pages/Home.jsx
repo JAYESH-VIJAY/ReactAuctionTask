@@ -17,7 +17,7 @@ const YourAuctionsInitial = [
   { image: "/car2.png", category: "Cars", minBid: "13,567$" },
   { image: "/fashion1.png", category: "Fashion", minBid: "79$" },
 ];
-export default function Home({ setShowHome }) {
+export default function Home() {
   const [YourAuctions, setYourAuctions] = useState(YourAuctionsInitial);
 
   const LiveAuction = [...LiveAuctionsInitial, ...YourAuctions];
@@ -35,7 +35,7 @@ export default function Home({ setShowHome }) {
 
   return (
     <div>
-      <NavBar setShowHome={setShowHome} />
+      <NavBar  />
       <LiveAuctions Images={CombineLiveAuction} />
       <ListYourAuction
         Images={YourAuctions}

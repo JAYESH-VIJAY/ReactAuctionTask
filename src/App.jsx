@@ -1,37 +1,57 @@
-import { createContext, useState } from "react";
-import Home from "./Pages/Home";
+import { useState, useEffect, useRef, createContext } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  Routes,
+  Route,
+  Navigate,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import { useRef } from "react";
-
+import Home from "./Pages/Home";
+// Create a context for the ref
 export const RefContext = createContext();
-export default function App() {
-  const [showHome, setShowHome] = useState(false);
-  const yourListingRef = useRef(null); // Create a ref for the footer component
+
+function App() {
+  const [user, setUser] = useState(null); // User state
+
+  const yourListingRef = useRef(null);
   const scrollToYourListing = () => {
     yourListingRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  const [login, setLogin] = useState(false);
+
+  const auth = getAuth();
+  useEffect(() => {
+    // Set up the auth state listener
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    // Clean up the listener when component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, [auth]);
+  console.log(user);
   return (
     <RefContext.Provider value={{ yourListingRef, scrollToYourListing }}>
-      {!login && !showHome && (
-        <SignUp
-          login={login}
-          setLogin={setLogin}
-          showHome={showHome}
-          setShowHome={setShowHome}
-        />
-      )}
-      {login && !showHome && (
-        <SignIn
-          login={login}
-          setLogin={setLogin}
-          showHome={showHome}
-          setShowHome={setShowHome}
-        />
-      )}
-      {showHome && <Home setShowHome={setShowHome} />}
-      {console.log(showHome)}
+      <Router>
+        <Routes>
+          <Route
+            path="/signup"
+            element={user ? <Navigate to="/" /> : <SignUp />}
+          />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <SignIn />}
+          />
+          <Route
+            path="/"
+            element={user ? <Home /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </Router>
     </RefContext.Provider>
   );
 }
+
+export default App;

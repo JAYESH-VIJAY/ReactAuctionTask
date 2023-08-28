@@ -4,7 +4,6 @@
   import { RefContext } from "../App";
   export default function ListYourAuction({ Images, setYourAuctions }) {
     const { yourListingRef } = useContext(RefContext);
-
     const [offerBid, setOfferBid] = useState("");
     function renderAuctions() {
       let Components = [];

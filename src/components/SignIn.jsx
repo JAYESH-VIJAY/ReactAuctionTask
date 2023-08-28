@@ -9,30 +9,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import useSignIn from "../Hooks/useSignIn";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-export default function SignIn({ login, setLogin, setShowHome }) {
+export default function SignIn() {
+  const navigate = useNavigate();
+  //eslint-disable-next-line
+  const { signIn, error } = useSignIn();
+
   const handleSubmit = (event) => {
-    const auth = getAuth();
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    signInWithEmailAndPassword(auth, data.get("email"), data.get("password"))
-      .then((response) => {
-        // Signed in
-        const user = response.user;
-        console.log(user);
-        setShowHome(()=>true);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage, errorCode);
-      });
+
+    signIn(data.get("email"), data.get("password"), () => {});
   };
 
   return (
@@ -88,7 +77,7 @@ export default function SignIn({ login, setLogin, setShowHome }) {
               Sign In
             </Button>
             <Grid container>
-              <Grid item onClick={() => setLogin(!login)}>
+              <Grid item onClick={() => navigate("/signup")}>
                 <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>

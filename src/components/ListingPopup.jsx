@@ -12,7 +12,6 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (image) {
-      setShowLoader(true);
       const storageRef = ref(storage, image.name);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
@@ -22,6 +21,11 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
+
+          setShowLoader(true);
+          if (progress === 100) {
+            setShowLoader(false);
+          }
           switch (snapshot.state) {
             case "paused":
               console.log("Upload is paused");
@@ -62,7 +66,6 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
                 minBid: price + "$",
               },
             ]);
-            setShowLoader(false);
           });
         }
       );
@@ -72,8 +75,10 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
 
     setShowModal(false);
   };
+  console.log(showLoader);
+
   return (
-    <div className="Modal fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div className="ListModal fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
       {showLoader ? (
         <SpinnerPopup />
       ) : (
