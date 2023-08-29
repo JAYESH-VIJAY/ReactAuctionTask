@@ -2,13 +2,16 @@ import { useState } from "react";
 import { storage } from "./firebase";
 import SpinnerPopup from "./SpinnerPopup";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+import useAddItem from "../Hooks/useAddItem";
 export default function ListingPopup({ setShowModal, setYourAuctions }) {
   // console.log(Images);
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-  const [showLoader, setShowLoader] = useState(false);
+  // eslint-disable-next-line
+  const { addItem, showLoader, error } = useAddItem();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (image) {
@@ -21,11 +24,6 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
-
-          setShowLoader(true);
-          if (progress === 100) {
-            setShowLoader(false);
-          }
           switch (snapshot.state) {
             case "paused":
               console.log("Upload is paused");
@@ -57,6 +55,12 @@ export default function ListingPopup({ setShowModal, setYourAuctions }) {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
+            addItem({
+              itemName: itemName,
+              itemCategory: category,
+              curBid: price,
+              photoURL: downloadURL,
+            });
             // setNewImageUrl(downloadURL);
             setYourAuctions((prevAuctions) => [
               ...prevAuctions,
